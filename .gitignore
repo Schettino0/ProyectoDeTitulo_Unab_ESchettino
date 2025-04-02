@@ -1,0 +1,8 @@
+# node_modules para ambos
+backend/node_modules/
+frontend/node_modules/
+
+# entornos
+.env
+backend/.env
+
