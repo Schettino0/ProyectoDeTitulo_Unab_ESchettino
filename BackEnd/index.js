@@ -9,7 +9,7 @@ app.use(cors());
 app.use(express.json());
 
 // Rutas
-const usuariosRoutes = require('./routes/usuarios/usuarios.routes');
+const usuariosRoutes = require('./routes/usuarios.routes');
 app.use('/api/usuarios', usuariosRoutes);
 
 app.get('/', (req, res) => {

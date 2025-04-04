@@ -1,10 +1,10 @@
 // routes/usuarios/usuarios.routes.js
 const express = require('express');
 const router = express.Router();
-const UsuarioController = require("../../Controllers/usuarios/usuarios.controller");
-const LoginController = require("../../Controllers/usuarios/login.controller");
-const verificarToken = require('../../middleware/auth');
-const soloAdmin = require('../../middleware/adminOnly');
+const UsuarioController = require("../Controllers/usuarios.controller");
+const LoginController = require("../Controllers/login.controller");
+const verificarToken = require('../middleware/auth');
+const soloAdmin = require('../middleware/adminOnly');
 
 router.post('/', UsuarioController.crearUsuario);
 router.post('/login', LoginController.loginUsuario); 

@@ -1,6 +1,6 @@
 // controllers/usuarios/usuarios.controller.js
 const bcrypt = require('bcryptjs');
-const UsuarioModel = require('../../models/usuarios/usuario.model');
+const UsuarioModel = require('../models/usuario.model');
 
 const crearUsuario = (req, res) => {
   const { nombre, correo, contraseña, rol } = req.body;
