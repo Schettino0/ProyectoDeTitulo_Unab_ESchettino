@@ -1,5 +1,5 @@
 // models/usuarios/usuarios.model.js
-const db = require('../db');
+const db = require('../config/db');
 
 const crearUsuario = (usuario, callback) => {
   const sql = `INSERT INTO usuario (nombre, correo, contraseña, rol, estado)
