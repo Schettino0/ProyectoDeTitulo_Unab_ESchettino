@@ -33,6 +33,14 @@ const eliminarDetallesPorCotizacionId = (id, callback) => {
   db.query(sql, [id], callback)
 }
 
+
+const deleteByCotizacionId = (id) => {
+  const sql = 'DELETE FROM detallecotizacion WHERE id_cotizacion = ?';
+  return db.promise().query(sql, [id]);
+};
+
+
+
 module.exports = {
   obtenerDetallesPorCotizacionId,
   crearDetalleCotizacion,

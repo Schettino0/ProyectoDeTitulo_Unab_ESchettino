@@ -11,8 +11,11 @@ app.use(express.json());
 // Rutas
 const usuariosRoutes = require('./routes/usuarios.routes');
 const cotizacionesRoutes = require('./routes/cotizaciones.routes')
+const empresaRoutes = require('./routes/empresa.routes');
 app.use('/api/usuarios', usuariosRoutes);
 app.use('/api/cotizaciones', cotizacionesRoutes);
+app.use('/api/empresas', empresaRoutes);
+
 
 app.get('/', (req, res) => {
   res.send('Servidor backend operativo 🟢');

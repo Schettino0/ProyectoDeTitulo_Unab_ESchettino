@@ -15,6 +15,7 @@ import {
 import Documentos from "../components/dashboard/Documentos"
 import Actividades from "../components/dashboard/Actividades"
 import Cotizaciones from "../components/dashboard/Cotizaciones"
+import NuevaCotizacion from "../components/NuevaCotizacion"
 
 export default function DashboardPage() {
   const navigate = useNavigate()
@@ -38,6 +39,8 @@ export default function DashboardPage() {
         return <Actividades />
       case "cotizaciones":
         return <Cotizaciones />
+      case "nuevaCotizacion":
+        return <NuevaCotizacion />
       default:
         return (
           <>
@@ -84,7 +87,7 @@ export default function DashboardPage() {
           <a href="/visita/agendar" className="flex items-center gap-2 hover:bg-gray-100 rounded px-2 py-2">
             <Calendar className="w-4 h-4" /> Agendar Visita
           </a>
-          <a href="/cotizacion/agregar" className="flex items-center gap-2 hover:bg-gray-100 rounded px-2 py-2">
+          <a onClick={() => setSeccionActiva("nuevaCotizacion")} className="flex items-center gap-2 hover:bg-gray-100 rounded px-2 py-2">
             <FileText className="w-4 h-4" /> Agregar Cotización
           </a>
           <a href="/documento/subir" className="flex items-center gap-2 hover:bg-gray-100 rounded px-2 py-2">
@@ -115,7 +118,7 @@ export default function DashboardPage() {
             : seccionActiva.charAt(0).toUpperCase() + seccionActiva.slice(1)}
         </h1>
 
-        <div className="grid grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 gap-6">
           {renderContenido()}
         </div>
       </main>

@@ -10,5 +10,5 @@ router.get("/", cotizacionesController.obtenerCotizaciones)
 router.get("/:id", cotizacionesController.obtenerCotizacionPorId)
 router.post("/", cotizacionesController.crearCotizacion)
 router.delete("/:id", cotizacionesController.eliminarCotizacion)
-
+router.put("/:id", cotizacionesController.updateCotizacion);
 module.exports = router

@@ -84,9 +84,40 @@ const eliminarCotizacion = (req, res) => {
   })
 }
 
+const updateCotizacion = async (req, res) => {
+  const { id } = req.params;
+  const { id_empresa, fecha_emision, fecha_vencimiento, estado, total, enlace_pago, detalles } = req.body;
+
+  try {
+    await CotizacionModel.actualizarCotizacion(id, {
+      id_empresa,
+      fecha_emision,
+      fecha_vencimiento,
+      estado,
+      total,
+      enlace_pago
+    });
+
+    await DetalleCotizacionModel.eliminarDetallesPorCotizacionId(id);
+
+    for (const d of detalles) {
+      await DetalleCotizacionModel.crearDetalleCotizacion(id, d);
+    }
+
+    res.json({ mensaje: "Cotización actualizada exitosamente" });
+  } catch (error) {
+    console.error("Error al actualizar cotización:", error);
+    res.status(500).json({ mensaje: "Error al actualizar cotización" });
+  }
+};
+
+
+
 module.exports = {
   obtenerCotizaciones,
   obtenerCotizacionPorId,
   crearCotizacion,
-  eliminarCotizacion
+  eliminarCotizacion,
+  updateCotizacion
+
 }
