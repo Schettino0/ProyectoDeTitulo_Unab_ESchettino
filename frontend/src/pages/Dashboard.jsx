@@ -1,6 +1,6 @@
-import { useNavigate } from "react-router-dom"
-import useAuth from "../hooks/useAuth"
-import { useEffect, useState } from "react"
+import { useNavigate } from "react-router-dom";
+import useAuth from "../hooks/useAuth";
+import { useEffect, useState } from "react";
 import {
   FileText,
   Activity,
@@ -9,53 +9,64 @@ import {
   Calendar,
   Upload,
   Building,
-  Users
-} from "lucide-react"
+  Users,
+} from "lucide-react";
 
-import Documentos from "../components/dashboard/Documentos"
-import Actividades from "../components/dashboard/Actividades"
-import Cotizaciones from "../components/dashboard/Cotizaciones"
-import NuevaCotizacion from "../components/NuevaCotizacion"
+import Documentos from "../components/dashboard/Documentos";
+import Actividades from "../components/dashboard/Actividades";
+import Cotizaciones from "../components/dashboard/Cotizaciones";
+import NuevaCotizacion from "../components/NuevaCotizacion";
 
 export default function DashboardPage() {
-  const navigate = useNavigate()
-  const { isAuthenticated, user } = useAuth()
-  const [seccionActiva, setSeccionActiva] = useState("inicio")
+  const navigate = useNavigate();
+  const { isAuthenticated, user } = useAuth();
+  const [seccionActiva, setSeccionActiva] = useState("inicio");
 
   useEffect(() => {
-    if (!isAuthenticated) navigate("/login")
-  }, [])
+    if (!isAuthenticated) navigate("/login");
+  }, []);
 
   const handleLogout = () => {
-    localStorage.removeItem("token")
-    navigate("/login")
-  }
+    localStorage.removeItem("token");
+    navigate("/login");
+  };
 
   const renderContenido = () => {
     switch (seccionActiva) {
       case "documentos":
-        return <Documentos />
+        return <Documentos />;
       case "actividades":
-        return <Actividades />
+        return <Actividades />;
       case "cotizaciones":
-        return <Cotizaciones />
+        return <Cotizaciones setSeccionActiva={setSeccionActiva} />;
+
+      // case "cotizaciones":
+      //   return <Cotizaciones />
       case "nuevaCotizacion":
-        return <NuevaCotizacion />
+        return <NuevaCotizacion />;
       default:
         return (
           <>
             <div className="bg-white shadow-md rounded-lg p-6">
-              <h2 className="text-xl font-semibold text-gray-700 mb-2">Resumen</h2>
-              <p className="text-sm text-gray-500">Aquí se mostrará el resumen del sistema.</p>
+              <h2 className="text-xl font-semibold text-gray-700 mb-2">
+                Resumen
+              </h2>
+              <p className="text-sm text-gray-500">
+                Aquí se mostrará el resumen del sistema.
+              </p>
             </div>
             <div className="bg-white shadow-md rounded-lg p-6">
-              <h2 className="text-xl font-semibold text-gray-700 mb-2">Cotizaciones recientes</h2>
-              <p className="text-sm text-gray-500">Próximamente se cargará esta sección.</p>
+              <h2 className="text-xl font-semibold text-gray-700 mb-2">
+                Cotizaciones recientes
+              </h2>
+              <p className="text-sm text-gray-500">
+                Próximamente se cargará esta sección.
+              </p>
             </div>
           </>
-        )
+        );
     }
-  }
+  };
 
   return (
     <div className="flex h-screen bg-gray-100">
@@ -66,13 +77,22 @@ export default function DashboardPage() {
         </div>
 
         <nav className="flex flex-col gap-2 text-sm">
-          <button onClick={() => setSeccionActiva("documentos")} className="flex items-center gap-2 hover:bg-gray-100 rounded px-2 py-2">
+          <button
+            onClick={() => setSeccionActiva("documentos")}
+            className="flex items-center gap-2 hover:bg-gray-100 rounded px-2 py-2"
+          >
             <FileText className="w-4 h-4" /> Documentos
           </button>
-          <button onClick={() => setSeccionActiva("actividades")} className="flex items-center gap-2 hover:bg-gray-100 rounded px-2 py-2">
+          <button
+            onClick={() => setSeccionActiva("actividades")}
+            className="flex items-center gap-2 hover:bg-gray-100 rounded px-2 py-2"
+          >
             <Activity className="w-4 h-4" /> Actividades
           </button>
-          <button onClick={() => setSeccionActiva("cotizaciones")} className="flex items-center gap-2 hover:bg-gray-100 rounded px-2 py-2">
+          <button
+            onClick={() => setSeccionActiva("cotizaciones")}
+            className="flex items-center gap-2 hover:bg-gray-100 rounded px-2 py-2"
+          >
             <Tag className="w-4 h-4" /> Cotizaciones
           </button>
         </nav>
@@ -81,22 +101,41 @@ export default function DashboardPage() {
         <div className="text-xs text-gray-500 uppercase mb-2">Acciones</div>
 
         <nav className="flex flex-col gap-2 text-sm">
-          <a href="/actividad/agregar" className="flex items-center gap-2 hover:bg-gray-100 rounded px-2 py-2">
+          <a
+            href="/actividad/agregar"
+            className="flex items-center gap-2 hover:bg-gray-100 rounded px-2 py-2"
+          >
             <Plus className="w-4 h-4" /> Agregar Actividad
           </a>
-          <a href="/visita/agendar" className="flex items-center gap-2 hover:bg-gray-100 rounded px-2 py-2">
+          <a
+            href="/visita/agendar"
+            className="flex items-center gap-2 hover:bg-gray-100 rounded px-2 py-2"
+          >
             <Calendar className="w-4 h-4" /> Agendar Visita
           </a>
-          <a onClick={() => setSeccionActiva("nuevaCotizacion")} className="flex items-center gap-2 hover:bg-gray-100 rounded px-2 py-2">
+          <a
+          href="#"
+            onClick={() => setSeccionActiva("nuevaCotizacion")}
+            className="flex items-center gap-2 hover:bg-gray-100 rounded px-2 py-2"
+          >
             <FileText className="w-4 h-4" /> Agregar Cotización
           </a>
-          <a href="/documento/subir" className="flex items-center gap-2 hover:bg-gray-100 rounded px-2 py-2">
+          <a
+            href="/documento/subir"
+            className="flex items-center gap-2 hover:bg-gray-100 rounded px-2 py-2"
+          >
             <Upload className="w-4 h-4" /> Subir Documento
           </a>
-          <a href="/empresa/agregar" className="flex items-center gap-2 hover:bg-gray-100 rounded px-2 py-2">
+          <a
+            href="/empresa/agregar"
+            className="flex items-center gap-2 hover:bg-gray-100 rounded px-2 py-2"
+          >
             <Building className="w-4 h-4" /> Agregar Empresa
           </a>
-          <a href="/empleado/agregar" className="flex items-center gap-2 hover:bg-gray-100 rounded px-2 py-2">
+          <a
+            href="/empleado/agregar"
+            className="flex items-center gap-2 hover:bg-gray-100 rounded px-2 py-2"
+          >
             <Users className="w-4 h-4" /> Agregar Empleado
           </a>
         </nav>
@@ -118,10 +157,8 @@ export default function DashboardPage() {
             : seccionActiva.charAt(0).toUpperCase() + seccionActiva.slice(1)}
         </h1>
 
-        <div className="grid grid-cols-1 gap-6">
-          {renderContenido()}
-        </div>
+        <div className="grid grid-cols-1 gap-6">{renderContenido()}</div>
       </main>
     </div>
-  )
+  );
 }

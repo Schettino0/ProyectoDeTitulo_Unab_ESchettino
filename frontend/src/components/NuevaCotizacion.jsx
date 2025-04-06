@@ -88,7 +88,7 @@ export default function NuevaCotizacion() {
   }
 
   return (
-    <div className="p-6 max-w-6xl mx-auto space-y-6 bg-white rounded-lg">
+    <div className="p-6  space-y-6 bg-white rounded-lg">
       <h2 className="text-2xl font-bold">Nueva Cotización</h2>
 
       {/* Datos generales */}
@@ -155,36 +155,84 @@ export default function NuevaCotizacion() {
       </div>
 
       {/* Productos */}
-      <div>
-        <h3 className="font-semibold mb-2">Productos</h3>
-        <table className="w-full text-sm mb-2">
-          <thead>
-            <tr className="bg-gray-100 text-left">
-              <th className="px-2 py-1">Código</th>
-              <th className="px-2 py-1">Nombre</th>
-              <th className="px-2 py-1">Cantidad</th>
-              <th className="px-2 py-1">Precio</th>
-              <th className="px-2 py-1">Subtotal</th>
-              <th className="px-2 py-1 text-center">Acciones</th>
-            </tr>
-          </thead>
-          <tbody>
-            {form.detalles.map((d, i) => (
-              <tr key={i} className="border-t">
-                <td><input type="text" value={d.codigo_producto} onChange={e => handleDetalleChange(i, "codigo_producto", e.target.value)} className="border w-full px-2" /></td>
-                <td><input type="text" value={d.nombre_producto} onChange={e => handleDetalleChange(i, "nombre_producto", e.target.value)} className="border w-full px-2" /></td>
-                <td><input type="number" value={d.cantidad} onChange={e => handleDetalleChange(i, "cantidad", e.target.value)} className="border w-full px-2" /></td>
-                <td><input type="number" value={d.precio_unitario} onChange={e => handleDetalleChange(i, "precio_unitario", e.target.value)} className="border w-full px-2" /></td>
-                <td className="px-2">{d.subtotal.toLocaleString("es-CL", { maximumFractionDigits: 0 })}</td>
-                <td className="text-center">
-                  <button onClick={() => eliminarProducto(i)} className="text-red-500 hover:underline">🗑</button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-        <button onClick={agregarProducto} className="text-sm text-blue-600 hover:underline mt-1">+ Agregar Producto</button>
-      </div>
+      <div className="mt-6">
+  <h3 className="font-semibold mb-3 text-lg">🧾 Productos</h3>
+
+  <div className="overflow-x-auto rounded-lg border border-gray-200 shadow-sm">
+    <table className="w-full text-sm">
+      <thead className="bg-gray-50 text-gray-700 font-semibold border-b">
+        <tr>
+          <th className="px-3 py-2 text-left">Código</th>
+          <th className="px-3 py-2 text-left">Nombre</th>
+          <th className="px-3 py-2 text-center">Cantidad</th>
+          <th className="px-3 py-2 text-right">Precio</th>
+          <th className="px-3 py-2 text-right">Subtotal</th>
+          <th className="px-3 py-2 text-center">Acción</th>
+        </tr>
+      </thead>
+      <tbody className="divide-y divide-gray-100">
+        {form.detalles.map((d, i) => (
+          <tr key={i}>
+            <td className="px-3 py-2">
+              <input
+                type="text"
+                value={d.codigo_producto}
+                onChange={(e) => handleDetalleChange(i, "codigo_producto", e.target.value)}
+                className="w-full border border-gray-300 rounded px-2 py-1 text-sm"
+              />
+            </td>
+            <td className="px-3 py-2">
+              <input
+                type="text"
+                value={d.nombre_producto}
+                onChange={(e) => handleDetalleChange(i, "nombre_producto", e.target.value)}
+                className="w-full border border-gray-300 rounded px-2 py-1 text-sm"
+              />
+            </td>
+            <td className="px-3 py-2 text-center">
+              <input
+                type="number"
+                value={d.cantidad}
+                onChange={(e) => handleDetalleChange(i, "cantidad", e.target.value)}
+                className="w-20 border border-gray-300 rounded px-2 py-1 text-sm text-center"
+              />
+            </td>
+            <td className="px-3 py-2 text-right">
+              <input
+                type="number"
+                value={d.precio_unitario}
+                onChange={(e) => handleDetalleChange(i, "precio_unitario", e.target.value)}
+                className="w-24 border border-gray-300 rounded px-2 py-1 text-sm text-right"
+              />
+            </td>
+            <td className="px-3 py-2 text-right font-medium text-gray-800">
+              {d.subtotal.toLocaleString("es-CL", { maximumFractionDigits: 0 })}
+            </td>
+            <td className="px-3 py-2 text-center">
+              <button
+                onClick={() => eliminarProducto(i)}
+                className="text-red-600 hover:text-red-800 text-lg"
+                title="Eliminar"
+              >
+                🗑
+              </button>
+            </td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+
+  <div className="mt-3">
+    <button
+      onClick={agregarProducto}
+      className="text-sm text-blue-600 hover:underline flex items-center gap-1"
+    >
+      ➕ Agregar Producto
+    </button>
+  </div>
+</div>
+
 
       {/* Guardar */}
       <div className="text-right mt-4">
