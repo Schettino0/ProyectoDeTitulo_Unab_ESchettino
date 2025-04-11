@@ -13,7 +13,7 @@ const crearEmpresa = (empresa, callback) => {
 };
 
 const obtenerEmpresas = (callback) => {
-    const sql = 'SELECT id_empresa, nombre FROM empresa ORDER BY nombre ASC';
+    const sql = 'SELECT * FROM empresa ORDER BY nombre ASC';
     db.query(sql, callback);
 };
 

@@ -8,10 +8,11 @@ const soloAdmin = require('../middleware/adminOnly');
 
 router.post('/', UsuarioController.crearUsuario);
 router.post('/login', LoginController.loginUsuario); 
+
 //Rutas Protegidas por autentificación.
-router.get('/', verificarToken, soloAdmin, UsuarioController.obtenerUsuarios);
-router.put('/:id', verificarToken, soloAdmin, UsuarioController.actualizarUsuario);
-router.delete('/:id', verificarToken, soloAdmin, UsuarioController.eliminarUsuario);
+router.get('/', UsuarioController.obtenerUsuarios);
+router.put('/:id',   UsuarioController.actualizarUsuario);
+router.delete('/:id', UsuarioController.eliminarUsuario);
 
 module.exports = router;
 

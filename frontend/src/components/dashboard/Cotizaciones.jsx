@@ -2,10 +2,11 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import ModalEditarCotizacion from "../EditarCotizacion";
-import NuevaCotizacion from "../NuevaCotizacion";
+import useAuth from "../../hooks/useAuth";
 
 export default function Cotizaciones({ setSeccionActiva }) {
-  const navigate = useNavigate();
+  const { isAuthenticated, user, isAdmin } = useAuth();
+
   const [cotizaciones, setCotizaciones] = useState([]);
   const [detalle, setDetalle] = useState(null);
   const [showModal, setShowModal] = useState(false);
@@ -29,7 +30,12 @@ export default function Cotizaciones({ setSeccionActiva }) {
   const cargarCotizaciones = () => {
     axios
       .get("http://localhost:5000/api/cotizaciones")
-      .then((res) => setCotizaciones(res.data))
+      .then((res) => {
+        const cotizacionesOrdenadas = res.data.sort(
+          (a, b) => new Date(b.fecha_emision) - new Date(a.fecha_emision)
+        );
+        setCotizaciones(cotizacionesOrdenadas);
+      })
       .catch((err) => console.error("Error al obtener cotizaciones", err));
   };
   useEffect(() => {
@@ -108,10 +114,9 @@ export default function Cotizaciones({ setSeccionActiva }) {
 
   return (
     <div className="p-6 space-y-6">
-      <h2 className="text-2xl font-bold">Cotizaciones</h2>
 
       {/* Filtro por empresa */}
-      <div className="mb-4">
+      <div className="mb-4 bg-white rounded-lg shadow-md p-4">
         <label className="block mb-1 font-semibold">Filtrar por Empresa</label>
         <select
           value={empresaSeleccionada}
@@ -134,12 +139,15 @@ export default function Cotizaciones({ setSeccionActiva }) {
             <h3 className="text-lg font-semibold">Cotizaciones</h3>
             <button
               onClick={() => setSeccionActiva("nuevaCotizacion")}
-              className="bg-black text-white px-4 py-2 rounded flex items-center gap-2"
+              className={`px-4 py-2 rounded flex items-center gap-2 ${
+                isAdmin ? "bg-black text-white hover:bg-gray-400 hover:text-white" : "bg-gray-400 text-gray-700 cursor-not-allowed"
+              }`}
+              disabled={!isAdmin}
             >
               📄 Nueva Cotización
             </button>
           </div>
-          <div className="max-h-[260px] overflow-y-auto">
+          <div className="max-h-[280px] overflow-y-auto">
             <table className="w-full text-sm">
               <thead className="sticky top-0 bg-white z-10 shadow-sm">
                 <tr className="border-b text-left">
@@ -174,18 +182,22 @@ export default function Cotizaciones({ setSeccionActiva }) {
                       >
                         Ver
                       </button>
-                      <button
-                        onClick={() => abrirEdicion(c.id_cotizacion)}
-                        className="border px-3 py-1 rounded text-sm"
-                      >
-                        Editar
-                      </button>
-                      <button
-                        onClick={() => eliminarCotizacion(c.id_cotizacion)}
-                        className="border px-3 py-1 rounded text-sm text-red-600 hover:bg-red-100"
-                      >
-                        Eliminar
-                      </button>
+                      {isAdmin && (
+                        <>
+                          <button
+                            onClick={() => abrirEdicion(c.id_cotizacion)}
+                            className="border px-3 py-1 rounded text-sm hover:bg-gray-900 hover:text-white"
+                          >
+                            Editar
+                          </button>
+                          <button
+                            onClick={() => eliminarCotizacion(c.id_cotizacion)}
+                            className="border px-3 py-1 rounded text-sm text-red-600 hover:bg-red-600 hover:text-white"
+                          >
+                            Eliminar
+                          </button>
+                        </>
+                      )}
                       <button className="border px-3 py-1 rounded text-sm hover:bg-gray-900 hover:text-white">
                         PDF
                       </button>

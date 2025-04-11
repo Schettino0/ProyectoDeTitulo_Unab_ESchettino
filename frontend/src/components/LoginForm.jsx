@@ -33,7 +33,7 @@ export default function LoginForm() {
   return (
     <div className="flex items-center justify-center w-screen h-screen bg-gray-100">
       <div className="bg-white p-12 rounded-lg shadow-xl w-full max-w-xl">
-        <h2 className="text-3xl font-bold text-center text-black-700 mb-2">Sosemin</h2>
+        <img src="/logo.jpg" alt="Logo" className="w-auto h-16 mx-auto mb-4 rounded-2xl" />
         <p className="text-center text-gray-500 mb-8">Ingrese sus credenciales para acceder al sistema</p>
 
         <form onSubmit={handleSubmit} className="space-y-6">

@@ -6,9 +6,9 @@ const verificarToken = require('../middleware/auth');
 const soloAdmin = require('../middleware/adminOnly');
 
 
-router.get("/", cotizacionesController.obtenerCotizaciones)
+router.get("/",  cotizacionesController.obtenerCotizaciones)
 router.get("/:id", cotizacionesController.obtenerCotizacionPorId)
-router.post("/", cotizacionesController.crearCotizacion)
-router.delete("/:id", cotizacionesController.eliminarCotizacion)
-router.put("/:id", cotizacionesController.updateCotizacion);
+router.post("/", soloAdmin, cotizacionesController.crearCotizacion)
+router.delete("/:id",  soloAdmin, cotizacionesController.eliminarCotizacion)
+router.put("/:id", soloAdmin, cotizacionesController.updateCotizacion);
 module.exports = router
