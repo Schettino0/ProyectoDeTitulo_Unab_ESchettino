@@ -8,7 +8,7 @@ export default function useAuth() {
       return {
         isAuthenticated: true,
         user: payload,
-        isAdmin: payload.rol === "administrador"
+        isAdmin: payload.rol === "Administrador"
       }
     } catch (e) {
       return { isAuthenticated: false }
