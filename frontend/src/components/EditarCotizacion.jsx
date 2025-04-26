@@ -29,15 +29,19 @@ export default function ModalEditarCotizacion({ cotizacion, onClose, onSave }) {
   const handleDetalleChange = (index, field, value) => {
     const nuevosDetalles = [...form.detalles];
     nuevosDetalles[index][field] =
-      field === "cantidad" || field === "precio_unitario"
+      field === "cantidad" ||
+      field === "precio_unitario" ||
+      field === "descuento"
         ? Number(value)
+        : field === "afecto_impuesto"
+        ? value
         : value;
 
-    if (field === "cantidad" || field === "precio_unitario") {
-      nuevosDetalles[index].subtotal = Math.round(
-        nuevosDetalles[index].cantidad * nuevosDetalles[index].precio_unitario
-      );
-    }
+    const d = nuevosDetalles[index];
+    let subtotal = d.cantidad * d.precio_unitario;
+    subtotal -= (subtotal * (d.descuento || 0)) / 100;
+    if (d.afecto_impuesto && d.impuesto === "IVA 19%") subtotal *= 1.19;
+    nuevosDetalles[index].subtotal = Math.round(subtotal);
 
     setForm((prev) => ({ ...prev, detalles: nuevosDetalles }));
   };
@@ -75,8 +79,27 @@ export default function ModalEditarCotizacion({ cotizacion, onClose, onSave }) {
       return;
     }
 
+    // 🔥 Nueva validación por producto
+    const productoIncompleto = form.detalles.some(
+      (producto) =>
+        !producto.codigo_producto.trim() ||
+        !producto.nombre_producto.trim() ||
+        producto.cantidad <= 0 ||
+        producto.precio_unitario <= 0
+    );
+
+    if (productoIncompleto) {
+      alert(
+        "Todos los productos deben tener Código, Nombre, Cantidad > 0 y Precio > 0."
+      );
+      return;
+    }
+
     try {
-      const total = form.detalles.reduce((acc, d) => acc + parseFloat(d.subtotal) || 0, 0);
+      const total = form.detalles.reduce(
+        (acc, d) => acc + parseFloat(d.subtotal) || 0,
+        0
+      );
 
       const datos = { ...form, total };
 
@@ -175,6 +198,10 @@ export default function ModalEditarCotizacion({ cotizacion, onClose, onSave }) {
                   <th className="px-3 py-2 text-right">Precio</th>
                   <th className="px-3 py-2 text-right">Subtotal</th>
                   <th className="px-3 py-2 text-center">Acción</th>
+                  <th className="px-3 py-2 text-left">Descripción</th>
+                  <th className="px-3 py-2 text-center">Afecto</th>
+                  <th className="px-3 py-2 text-center">Impuesto</th>
+                  <th className="px-3 py-2 text-right">Descuento %</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-100">
@@ -245,6 +272,51 @@ export default function ModalEditarCotizacion({ cotizacion, onClose, onSave }) {
                       >
                         🗑
                       </button>
+                    </td>
+                    <td className="px-3 py-2">
+                      <input
+                        type="text"
+                        value={d.descripcion}
+                        onChange={(e) =>
+                          handleDetalleChange(i, "descripcion", e.target.value)
+                        }
+                        className="w-full border border-gray-300 rounded px-2 py-1 text-sm"
+                      />
+                    </td>
+                    <td className="px-3 py-2 text-center">
+                      <input
+                        type="checkbox"
+                        checked={d.afecto_impuesto}
+                        onChange={(e) =>
+                          handleDetalleChange(
+                            i,
+                            "afecto_impuesto",
+                            e.target.checked
+                          )
+                        }
+                      />
+                    </td>
+                    <td className="px-3 py-2 text-center">
+                      <select
+                        value={d.impuesto}
+                        onChange={(e) =>
+                          handleDetalleChange(i, "impuesto", e.target.value)
+                        }
+                        className="border border-gray-300 rounded px-2 py-1 text-sm"
+                      >
+                        <option value="">--</option>
+                        <option value="IVA 19%">IVA 19%</option>
+                      </select>
+                    </td>
+                    <td className="px-3 py-2 text-right">
+                      <input
+                        type="number"
+                        value={d.descuento}
+                        onChange={(e) =>
+                          handleDetalleChange(i, "descuento", e.target.value)
+                        }
+                        className="w-full border border-gray-300 rounded px-2 py-1 text-sm text-right"
+                      />
                     </td>
                   </tr>
                 ))}

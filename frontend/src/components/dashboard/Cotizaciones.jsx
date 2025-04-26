@@ -51,6 +51,7 @@ export default function Cotizaciones({ setSeccionActiva }) {
       const res = await axios.get(
         `http://localhost:5000/api/cotizaciones/${id}`
       );
+      console.log(res.data);
       setDetalle(res.data);
       setShowModal(true);
     } catch (err) {
@@ -114,7 +115,6 @@ export default function Cotizaciones({ setSeccionActiva }) {
 
   return (
     <div className="p-6 space-y-6">
-
       {/* Filtro por empresa */}
       <div className="mb-4 bg-white rounded-lg shadow-md p-4">
         <label className="block mb-1 font-semibold">Filtrar por Empresa</label>
@@ -140,7 +140,9 @@ export default function Cotizaciones({ setSeccionActiva }) {
             <button
               onClick={() => setSeccionActiva("nuevaCotizacion")}
               className={`px-4 py-2 rounded flex items-center gap-2 ${
-                isAdmin ? "bg-black text-white hover:bg-gray-400 hover:text-white" : "bg-gray-400 text-gray-700 cursor-not-allowed"
+                isAdmin
+                  ? "bg-black text-white hover:bg-gray-400 hover:text-white"
+                  : "bg-gray-400 text-gray-700 cursor-not-allowed"
               }`}
               disabled={!isAdmin}
             >
@@ -198,9 +200,9 @@ export default function Cotizaciones({ setSeccionActiva }) {
                           </button>
                         </>
                       )}
-                      <button className="border px-3 py-1 rounded text-sm hover:bg-gray-900 hover:text-white">
+                      <a href={`http://localhost:5000/api/cotizaciones/${c.id_cotizacion}/pdf`} target="_blank" rel="noopener noreferrer" className="border px-3 py-1 rounded text-sm hover:bg-gray-900 hover:text-white">
                         PDF
-                      </button>
+                      </a>
                     </td>
                   </tr>
                 ))}
@@ -273,9 +275,14 @@ export default function Cotizaciones({ setSeccionActiva }) {
                   >
                     Ver Detalles
                   </button>
-                  <button className="text-sm text-gray-600 hover:underline">
+                  <a
+                    href={`http://localhost:5000/api/cotizaciones/${c.id_cotizacion}/pdf`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-sm text-gray-600 hover:underline"
+                  >
                     Generar PDF
-                  </button>
+                  </a>
                 </div>
                 <div className="text-right font-semibold">
                   {formatCLP(c.total)}
@@ -297,19 +304,42 @@ export default function Cotizaciones({ setSeccionActiva }) {
       {/* Modal de detalle */}
       {showModal && detalle && (
         <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
-          <div className="bg-white rounded-lg p-6 w-full max-w-3xl relative">
+          <div className="bg-white rounded-lg p-6 w-full max-w-5xl relative">
             <h2 className="text-xl font-bold mb-4">Detalle de Cotización</h2>
-            <p>
-              <strong>Empresa:</strong> {detalle.nombre_empresa}
-            </p>
-            <p>
-              <strong>Fecha emisión:</strong>{" "}
-              {new Date(detalle.fecha_emision).toLocaleDateString()}
-            </p>
-            <p>
-              <strong>Fecha vencimiento:</strong>{" "}
-              {new Date(detalle.fecha_vencimiento).toLocaleDateString()}
-            </p>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <p>
+                <strong>Empresa:</strong> {detalle.nombre_empresa}
+              </p>
+              <p>
+                <strong>Fecha emisión:</strong>{" "}
+                {new Date(detalle.fecha_emision).toLocaleDateString()}
+              </p>
+              <p>
+                <strong>Fecha vencimiento:</strong>{" "}
+                {new Date(detalle.fecha_vencimiento).toLocaleDateString()}
+              </p>
+              <p>
+                <strong>Correo cliente:</strong> {detalle.correo_cliente || "—"}
+              </p>
+              <p>
+                <strong>Estado:</strong> {detalle.estado}
+              </p>
+              <p>
+                <strong>Enlace pago:</strong>{" "}
+                {detalle.enlace_pago ? (
+                  <a
+                    href={detalle.enlace_pago}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="text-blue-600 underline"
+                  >
+                    Ver enlace
+                  </a>
+                ) : (
+                  "—"
+                )}
+              </p>
+            </div>
 
             <h3 className="mt-6 font-semibold text-lg">
               🧾 Detalle de Productos
@@ -324,6 +354,9 @@ export default function Cotizaciones({ setSeccionActiva }) {
                     <th className="px-3 py-2 text-left">Descripción</th>
                     <th className="px-3 py-2 text-center">Cantidad</th>
                     <th className="px-3 py-2 text-right">Precio</th>
+                    <th className="px-3 py-2 text-right">Afecto</th>
+                    <th className="px-3 py-2 text-right">Impuesto</th>
+                    <th className="px-3 py-2 text-right">Descuento</th>
                     <th className="px-3 py-2 text-right">Subtotal</th>
                   </tr>
                 </thead>
@@ -336,6 +369,15 @@ export default function Cotizaciones({ setSeccionActiva }) {
                       <td className="px-3 py-2 text-center">{d.cantidad}</td>
                       <td className="px-3 py-2 text-right">
                         {formatCLP(d.precio_unitario)}
+                      </td>
+                      <td className="px-3 py-2 text-right">
+                        {d.afecto_impuesto ? "Sí" : "No"}
+                      </td>
+                      <td className="px-3 py-2 text-right">
+                        {d.impuesto || "—"}
+                      </td>
+                      <td className="px-3 py-2 text-right">
+                        {d.descuento ? `${d.descuento}%` : "0%"}
                       </td>
                       <td className="px-3 py-2 text-right">
                         {formatCLP(d.subtotal)}

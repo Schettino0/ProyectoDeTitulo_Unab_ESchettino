@@ -25,8 +25,8 @@ const obtenerCotizacionPorId = (id, callback) => {
 const crearCotizacion = (data, callback) => {
   const sql = `INSERT INTO cotizacion (
     id_empresa, fecha_emision, fecha_vencimiento,
-    estado, total, enlace_pago
-  ) VALUES (?, ?, ?, ?, ?, ?)`
+    estado, total, enlace_pago, correo_cliente, observaciones
+  ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)`
 
   db.query(sql, [
     data.id_empresa,
@@ -34,7 +34,9 @@ const crearCotizacion = (data, callback) => {
     data.fecha_vencimiento,
     data.estado,
     data.total,
-    data.enlace_pago
+    data.enlace_pago,
+    data.correo_cliente,
+    data.observaciones
   ], callback)
 }
 

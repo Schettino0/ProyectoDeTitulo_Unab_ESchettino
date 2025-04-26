@@ -17,6 +17,7 @@ app.use('/api/cotizaciones', cotizacionesRoutes);
 app.use('/api/empresas', empresaRoutes);
 
 
+
 app.get('/', (req, res) => {
   res.send('Servidor backend operativo 🟢');
 });

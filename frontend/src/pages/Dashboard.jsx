@@ -43,8 +43,6 @@ export default function DashboardPage() {
         return <Actividades />;
       case "cotizaciones":
         return <Cotizaciones setSeccionActiva={setSeccionActiva} />;
-      // case "cotizaciones":
-      //   return <Cotizaciones />
       case "nuevaCotizacion":
         return <NuevaCotizacion />;
       case "empresas":
@@ -122,7 +120,7 @@ export default function DashboardPage() {
           </a>
           <a
             href="/documento/subir"
-            className={`flex items-center gap-2 hover:bg-gray-100 rounded px-2 py-2 ${!isAdmin ? 'opacity-50 pointer-events-none' : ''}`}
+            className={`flex items-center gap-2 hover:bg-gray-100 rounded px-2 py-2 `}
           >
             <Upload className="w-4 h-4" /> Subir Documento
           </a>
@@ -156,7 +154,7 @@ export default function DashboardPage() {
         <h1 className="text-3xl font-bold text-gray-800 mb-4">
           {seccionActiva === "inicio"
             ? `Bienvenido, ${user?.nombre || "usuario"} 👋`
-            : seccionActiva.charAt(0).toUpperCase() + seccionActiva.slice(1)}
+            : ""}
         </h1>
 
         <div className="grid grid-cols-1 gap-6">{renderContenido()}</div>
