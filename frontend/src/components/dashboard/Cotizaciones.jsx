@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import ModalEditarCotizacion from "../EditarCotizacion";
 import useAuth from "../../hooks/useAuth";
@@ -51,7 +50,6 @@ export default function Cotizaciones({ setSeccionActiva }) {
       const res = await axios.get(
         `http://localhost:5000/api/cotizaciones/${id}`
       );
-      console.log(res.data);
       setDetalle(res.data);
       setShowModal(true);
     } catch (err) {
@@ -212,32 +210,32 @@ export default function Cotizaciones({ setSeccionActiva }) {
         </div>
 
         {/* Resumen */}
-        <div className="lg:col-span-1 bg-white rounded-lg shadow-md p-4">
-          <h3 className="text-lg font-semibold mb-2">
+        <div className="lg:col-span-1 bg-white rounded-lg shadow-md p-6">
+          <h3 className="text-xl font-semibold mb-4">
             Resumen de Cotizaciones
           </h3>
-          <ul className="text-sm space-y-1">
+          <ul className="text-base space-y-2">
             <li>
               Total Cotizaciones{" "}
-              <span className="float-right font-bold">{resumen.total}</span>
+              <span className="float-right font-bold text-lg">{resumen.total}</span>
             </li>
             <li>
               Aprobadas{" "}
-              <span className="float-right font-bold">{resumen.aprobadas}</span>
+              <span className="float-right font-bold text-lg">{resumen.aprobadas}</span>
             </li>
             <li>
               Pendientes{" "}
-              <span className="float-right font-bold">
+              <span className="float-right font-bold text-lg">
                 {resumen.pendientes}
               </span>
             </li>
             <li>
               Rechazadas{" "}
-              <span className="float-right font-bold">
+              <span className="float-right font-bold text-lg">
                 {resumen.rechazadas}
               </span>
             </li>
-            <li className="border-t pt-2 mt-2 font-bold">
+            <li className="border-t pt-3 mt-3 font-bold text-lg">
               Monto Total{" "}
               <span className="float-right">
                 {formatCLP(resumen.montoTotal)}

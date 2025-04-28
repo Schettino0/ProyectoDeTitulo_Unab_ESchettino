@@ -1,199 +1,195 @@
-# 💻 Sistema de Gestión para Sosemin.ltda
 
-<p align="center">
-  <img src="./frontend/public/logo.jpg" width="200" alt="Dashboard" />
-</p>
-Este proyecto consiste en una **plataforma de gestión digital centralizada** para la empresa **Sosemin.ltda**, dedicada a la **cotización**, **mantención** y **fabricación de repuestos industriales**. La aplicación permite la administración de usuarios, empresas y cotizaciones, con **acceso controlado por roles**.
-
----
-
-## 🧭 Navegación del Sistema
-
-### 🔑 Páginas públicas
-
-| Ruta     | Descripción                |
-|----------|----------------------------|
-| `/login` | Página de inicio de sesión |
+# Sistema de Gestión para Sosemin Ltda
+**Autor:** Eduardo Schettino  
+**Profesor Guía:** Barbarita Lara
+**Carrera:** Ingeniería en Computación e Informática  
+**Fecha de inicio:** Marzo 2025  
+**Versión:** 1.3.0
 
 ---
 
-### 🔐 Páginas protegidas (requieren autenticación JWT)
+## 📌 Descripción del Proyecto
 
-| Ruta               | Descripción                                                        |
-|--------------------|--------------------------------------------------------------------|
-| `/dashboard`       | Página principal tras iniciar sesión. Carga módulos según permisos |
-| `Usuarios`         | Panel para ver, editar o eliminar usuarios (solo admin)           |
-| `Empresas`         | Panel para gestionar empresas registradas                         |
-| `Cotizaciones`     | Listado, creación y edición de cotizaciones                       |
-| `Nueva Cotización` | Vista para generar una nueva cotización                           |
+Sistema web diseñado para centralizar la gestión de **cotizaciones, actividades y documentos** de la empresa Sosemin Ltda, con el objetivo de optimizar la administración comercial, técnica y operacional.  
+Incluye módulos para la gestión de usuarios, empresas, cotizaciones y actividades, todo protegido mediante autenticación segura.
 
 ---
 
-## 🚀 Tecnologías utilizadas
+## ⚠️ Problemática Detectada
 
-- **Frontend**: React + Vite + Tailwind CSS
-- **Backend**: Node.js + Express
-- **Base de datos**: MySQL
-- **Autenticación**: JWT + bcryptjs
-- **Otros**: Axios, React Router DOM
+Actualmente, Sosemin Ltda. realiza procesos de cotización, registro de actividades y gestión de documentos de manera dispersa y manual, lo que genera pérdidas de tiempo, errores en el seguimiento, baja trazabilidad y dificultades en la atención de clientes.  
+Se detectó la necesidad de contar con una plataforma centralizada, de fácil acceso, adaptable a las operaciones de la empresa.
 
 ---
 
-## ✅ Funcionalidades
+## 🎯 Objetivos
 
-### 🔐 Sprint 1 - Autenticación y gestión de usuarios
+### Objetivo General
+Desarrollar una plataforma web centralizada para la gestión de cotizaciones, actividades y documentos de Sosemin Ltda, mejorando la eficiencia administrativa y la trazabilidad de procesos.
 
-- Login seguro con JWT
-- Registro (solo administradores)
-- Encriptación de contraseñas con bcryptjs
-- Middleware para protección de rutas según rol
-
-### 👥 Sprint 2 - Gestión de Usuarios y Empresas
-
-- Listado de usuarios con tabla responsiva
-- Modales para editar o eliminar usuarios
-- Selector de rol y estado
-- Panel para ver, agregar y eliminar empresas
-
-### 📦 Sprint 3 - Módulo Cotizaciones (parcial)
-
-- Visualización de cotizaciones con tabla principal
-- Modal para ver detalles con productos asociados
-- Formulario dinámico para crear nueva cotización
-- Edición completa de cotización (empresa, estado, productos)
-- Filtro por empresa para listar cotizaciones asociadas
-- Validación de productos mínimos
-- Totales automáticos (neto, IVA, total)
-- Restricción de botones según rol (solo admin puede editar o eliminar)
+### Objetivos Específicos
+- Permitir la gestión integral de usuarios, empresas, cotizaciones y actividades.
+- Facilitar la generación de cotizaciones y el seguimiento de actividades programadas.
+- Mejorar el control sobre estados de cotizaciones y actividades (pendientes, en progreso, finalizados).
+- Asegurar el acceso autorizado mediante roles de usuario (Administrador y Operador).
 
 ---
 
-## 🛠️ Instalación y ejecución
+## 🔧 Producto Mínimo Viable (MVP)
 
-### 1. Clonar el repositorio
+- 🧾 Gestión de usuarios y roles (Administrador y Operador).
+- 🏢 Gestión de empresas clientes.
+- 💵 Creación, edición y eliminación de cotizaciones con detalles de productos.
+- 📋 Registro y seguimiento de actividades por empresa y usuario asignado.
+- 🔎 Filtros dinámicos para empresas y usuarios en cotizaciones y actividades.
+- 🔐 Control de acceso seguro mediante autenticación JWT.
+- 📝 Generación de PDF de cotizaciones de manera dinámica.
 
+---
+
+## 🛠️ Tecnologías Utilizadas
+
+- **Backend:** Node.js, Express.js
+- **Frontend:** React.js (Vite + TailwindCSS)
+- **Base de Datos:** MySQL
+- **Autenticación:** JSON Web Token (JWT)
+- **Control de versiones:** Git + GitHub
+- **Documentación:** Markdown (README.md)
+
+---
+
+## 🚀 Cómo Ejecutar el Proyecto
+
+1. **Clonar el repositorio**
 ```bash
 git clone https://github.com/Schettino0/ProyectoDeTitulo_Unab_ESchettino.git
 cd ProyectoDeTitulo_Unab_ESchettino
 ```
 
-### 2. Iniciar el backend
-
+2. **Instalar dependencias Backend**
 ```bash
-cd Backend
+cd backend
 npm install
-npm run dev
 ```
 
-### 3. Iniciar el frontend
-
+3. **Instalar dependencias Frontend**
 ```bash
-cd ../Frontend
+cd frontend
 npm install
-npm run dev
 ```
 
-### 4. Configuración base de datos
-
-#### Opción 1: MySQL Workbench
-
-1. Abre **MySQL Workbench**.
-2. Conéctate a tu servidor local (por ejemplo, usuario `root` y contraseña `schettino`).
-3. Abre el archivo `estructura_sosemin.sql`.
-4. Ejecuta todo el script para crear la base de datos y sus tablas.
-
-#### Opción 2: Terminal
-
-```bash
-mysql -u root -p < estructura_sosemin.sql
+4. **Configurar archivos `.env`**
+Crear un archivo `.env` en backend con las variables:
 ```
-
-#### Variables de entorno para conectar el backend
-
-Crea un archivo `.env` dentro del directorio `backend/` con:
-
-```env
-PORT=5000
 DB_HOST=localhost
 DB_USER=root
-DB_PASSWORD=schettino
+DB_PASSWORD=tu_contraseña
 DB_NAME=sosemin_db
 JWT_SECRET=sosemin_secret_key
 ```
 
-- Crear una base de datos llamada `sosemin_db`
-- Ejecutar el script SQL para la estructura de tablas
-- Crear un archivo `.env` en el backend con lo siguiente:
+5. **Levantar el servidor Backend**
+```bash
+npm run dev
+```
 
-```env
-PORT=5000
-DB_HOST=localhost
-DB_USER=root
-DB_PASSWORD=schettino
-DB_NAME=sosemin_db
-JWT_SECRET=sosemin_secret_key
+6. **Levantar el servidor Frontend**
+```bash
+npm run dev
 ```
 
 ---
 
-## 🧑‍💻 Autor
+## 📁 Estructura del Proyecto
 
-Eduardo Schettino  
-Proyecto de Título – Ingeniería en Computación e Informática  
-Universidad Andrés Bello
+```
+.vscode/
+BackEnd/
+├── config/
+│   └── db.js
+├── controllers/
+│   ├── actividades.controller.js
+│   ├── cotizaciones.controller.js
+│   ├── cotizacionesPDF.controller.js
+│   ├── empresa.controller.js
+│   ├── login.controller.js
+│   └── usuarios.controller.js
+├── middleware/
+│   ├── adminOnly.js
+│   └── auth.js
+├── models/
+│   ├── actividades.model.js
+│   ├── cotizacion.model.js
+│   ├── detallecotizacion.model.js
+│   ├── empresa.model.js
+│   └── usuario.model.js
+├── routes/
+│   ├── actividades.routes.js
+│   ├── cotizaciones.routes.js
+│   ├── empresa.routes.js
+│   └── usuarios.routes.js
+├── index.js
+├── .env
+├── env.example
+frontend/
+├── public/
+├── src/
+│   ├── assets/
+│   ├── components/
+│   │   ├── dashboard/
+│   │   │   ├── Actividades.jsx
+│   │   │   ├── Cotizaciones.jsx
+│   │   │   ├── Documentos.jsx
+│   │   │   ├── Inicio.jsx
+│   │   │   ├── AdminRoute.jsx
+│   │   │   ├── EditarCotizacion.jsx
+│   │   │   ├── editarUsuario.jsx
+│   │   │   ├── empresas.jsx
+│   │   │   ├── LoginForm.jsx
+│   │   │   ├── NuevaActividad.jsx
+│   │   │   ├── NuevaCotizacion.jsx
+│   │   │   └── usuarios.jsx
+│   ├── hooks/
+│   │   └── useAuth.js
+│   ├── pages/
+│   │   ├── Dashboard.jsx
+│   │   └── LoginPage.jsx
+│   ├── App.jsx
+│   ├── main.jsx
+│   ├── router.jsx
+├── README.md
+├── vite.config.js
+
+```
 
 ---
 
-## 📝 Release v1.1.0 – Sprint 2 + avance Sprint 3
+## 🔄 Estado Actual del Proyecto
 
-### ✨ Nuevas funcionalidades:
-
-- ✅ Gestión de empresas (listar, agregar, eliminar)
-- ✅ Gestión de usuarios (listar, agregar, editar, eliminar con modal)
-- ✅ Crear cotización con selector de empresa y productos dinámicos
-- ✅ Visualización de cotizaciones recientes
-- ✅ Modal para editar cotizaciones (cabecera + productos)
-- ✅ Filtro por empresa en cotizaciones
-- ✅ Validación para evitar cotizaciones vacías
-- ✅ Cálculo automático del total
-- ✅ Mejora visual con scroll, sticky headers y maquetado elegante
-- ✅ Acceso restringido según rol
+✔️ Backend operativo con todos los endpoints funcionales, excepto de documentos.  
+✔️ Frontend Intuitivo.  
+✔️ Módulo de Cotizaciones finalizado (crear, editar, ver, eliminar, PDF).  
+✔️ Módulo de Actividades finalizado (crear, editar, ver, completar, filtrar).  
+✔️ Control de acceso y roles implementado.  
 
 ---
 
-## Imagenes 
-### DashBoard Inicio
-<p align="center">
-  <img src="./frontend/public/Captura de pantalla 2025-04-11 002722.png" width="auto" alt="Dashboard" />
-</p>
+## 📈 Cambios Recientes (v1.3.0)
 
-### Login Inicial
-<p align="center">
-  <img src="./frontend/public/Captura de pantalla 2025-04-11 002728.png" width="400" alt="Dashboard" />
-</p>
+### 🧩 Finalización de Sprint 4 – Actividades
 
-### Modulo Cotizaciones
-<p align="center">
-  <img src="./frontend/public/Captura de pantalla 2025-04-11 002746.png" width="auto" alt="Dashboard" />
-</p>
-
-### Modulo Empresas
-<p align="center">
-  <img src="./frontend/public/Captura de pantalla 2025-04-11 002757.png" width="auto" alt="Dashboard" />
-</p>
-
-### Creacion de Cotizacion
-<p align="center">
-  <img src="./frontend/public/Captura de pantalla 2025-04-11 002815.png" width="auto" alt="Dashboard" />
-</p>
-
+- Desarrollo completo del módulo de Actividades.
+- Listado general con filtros dinámicos por empresa y usuario asignado.
+- Modal interno para ver detalles de la actividad.
+- Modal interno para editar actividad (título, descripción, prioridad, estado).
+- Botón "Completar actividad" implementado para actualizar estado a Finalizado.
+- Unificación de Agendar Visita como una actividad estándar.
+- Agregado de columna `hora_visita` en base de datos.
+- Actualización de modales para capturar hora de visita.
 
 ---
 
-## 🧑‍💻 Autor
+## 📘 Licencia
 
-Eduardo Schettino  
-Proyecto de Título – Ingeniería en Computación e Informática  
-Universidad Andrés Bello
-
----
+Proyecto académico sin fines comerciales.  
+Derechos reservados © Eduardo Schettino, 2025.
