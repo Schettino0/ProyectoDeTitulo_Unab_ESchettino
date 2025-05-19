@@ -1,4 +1,4 @@
-// models/DetalleCotizacion.js
+
 const db = require("../config/db")
 
 const obtenerDetallesPorCotizacionId = (id, callback) => {
@@ -32,13 +32,6 @@ const eliminarDetallesPorCotizacionId = (id, callback) => {
   const sql = "DELETE FROM detallecotizacion WHERE id_cotizacion = ?"
   db.query(sql, [id], callback)
 }
-
-
-const deleteByCotizacionId = (id) => {
-  const sql = 'DELETE FROM detallecotizacion WHERE id_cotizacion = ?';
-  return db.promise().query(sql, [id]);
-};
-
 
 
 module.exports = {

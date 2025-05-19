@@ -37,7 +37,7 @@ const eliminarEmpresa = (req, res) => {
         if (err) {
             if (err.code === 'ER_ROW_IS_REFERENCED_2') {
                 return res.status(400).json({
-                    error: 'No se puede eliminar la empresa porque tiene cotizaciones asociadas.'
+                    error: 'No se puede eliminar la empresa porque tiene cotizaciones/actividades asociadas.'
                 });
             }
 

@@ -30,7 +30,7 @@ export default function Empresas() {
       await axios.delete(`http://localhost:5000/api/empresas/${id}`)
       cargarEmpresas()
     } catch (err) {
-      alert("No se puede eliminar una empresa con cotizaciones asociadas.")
+      alert("No se puede eliminar una empresa con cotizaciones/Actividades asociadas.")
     }
   }
 
