@@ -114,6 +114,9 @@ export default function Actividades() {
   // Render the component
   return (
     <div className="p-6 space-y-6">
+                  <h2 className="text-3xl font-bold text-center text-gray-800">
+        Gestión de Actividades
+      </h2>
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Activities Table */}
         <div className="lg:col-span-3 bg-white rounded-lg shadow-md p-4">
@@ -172,8 +175,11 @@ export default function Actividades() {
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-100">
-                {actividadesOrdenadas.map((actividad) => (
-                  <tr key={actividad.id_actividad}>
+                {actividadesOrdenadas.map((actividad, index) => (
+                  <tr
+                    key={actividad.id_actividad}
+                    className={index % 2 === 0 ? "bg-white" : "bg-gray-200"}
+                  >
                     <td className="px-4 py-2">
                       {new Date(
                         actividad.fecha_programada

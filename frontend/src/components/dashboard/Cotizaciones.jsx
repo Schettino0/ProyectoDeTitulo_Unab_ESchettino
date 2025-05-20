@@ -113,6 +113,9 @@ export default function Cotizaciones({ setSeccionActiva }) {
 
   return (
     <div className="p-6 space-y-6">
+            <h2 className="text-3xl font-bold text-center text-gray-800">
+        Gestión de Cotizaciones
+      </h2>
       {/* Filtro por empresa */}
       <div className="mb-4 bg-white rounded-lg shadow-md p-4">
         <label className="block mb-1 font-semibold">Filtrar por Empresa</label>
