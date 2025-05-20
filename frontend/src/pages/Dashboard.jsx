@@ -77,7 +77,7 @@ export default function DashboardPage() {
         <div className="flex items-center gap-2 mb-6 text-lg font-semibold">
           <span className="text-xl">⚙️</span>
           <h2>Sosemin</h2>
-          <p className="text-xs text-gray-500">v 1.0.0</p>
+          <p className="text-xs text-gray-500">v 1.4.1</p>
           {isAdmin ? (
             <p className="text-xs text-red-500">Administrador</p>
           ) : (
@@ -172,9 +172,9 @@ export default function DashboardPage() {
 
       {/* Contenido principal del dashboard */}
       <main className="flex-1 p-4 overflow-y-auto mx-auto max-w-7xl">
-        <h1 className="text-3xl font-bold text-gray-800 mb-4">
+        <h1 className="text-3xl font-bold text-center text-gray-800 mb-4">
           {seccionActiva === "inicio"
-            ? `Bienvenido, ${user?.nombre || "usuario"} 👋`
+            ? `Bienvenido, ${user?.nombre || "usuario"} 👋⚙️`
             : ""}
         </h1>
 
