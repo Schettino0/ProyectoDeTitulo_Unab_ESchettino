@@ -1,12 +1,10 @@
-// Import necessary React hooks and axios for HTTP requests
 import { useEffect, useState } from "react";
 import axios from "axios";
-// Import the Modal component for creating new activities
 import ModalNuevaActividad from "../NuevaActividad";
 import useAuth from "../../hooks/useAuth";
-// Main component for managing activities
+import TourIntroActividades from "../TourIntroActividades";
+
 export default function Actividades() {
-  // State variables for managing modals and data
   const { isAdmin } = useAuth();
   const [showModal, setShowModal] = useState(false);
   const [actividades, setActividades] = useState([]);
@@ -18,12 +16,10 @@ export default function Actividades() {
   const [showModalEditar, setShowModalEditar] = useState(false);
   const [actividadSeleccionada, setActividadSeleccionada] = useState(null);
 
-  // Load activities, companies, and users when the component mounts
   useEffect(() => {
     cargarDatos();
   }, []);
 
-  // Function to load data from the API
   const cargarDatos = async () => {
     try {
       const [actividadesRes, empresasRes, usuariosRes] = await Promise.all([
@@ -39,7 +35,6 @@ export default function Actividades() {
     }
   };
 
-  // Function to mark an activity as completed
   const completarActividad = async (id) => {
     if (
       !window.confirm(
@@ -54,13 +49,12 @@ export default function Actividades() {
         ...actividad,
         estado: "Finalizado",
       });
-      cargarDatos(); // Refresh the list automatically
+      cargarDatos();
     } catch (err) {
       console.error("Error al completar actividad:", err);
     }
   };
 
-  // Filter and sort activities based on selected criteria
   const actividadesFiltradas = actividades.filter((actividad) => {
     return (
       (filtroEmpresa === "" ||
@@ -73,7 +67,6 @@ export default function Actividades() {
     (a, b) => new Date(b.fecha_programada) - new Date(a.fecha_programada)
   );
 
-  // Summary object for activity counts by priority
   const resumen = {
     total: actividadesFiltradas.length,
     alta: actividadesFiltradas.filter((a) => a.prioridad === "Alta").length,
@@ -81,12 +74,22 @@ export default function Actividades() {
     baja: actividadesFiltradas.filter((a) => a.prioridad === "Baja").length,
   };
 
-  // Calculate upcoming activities
+  const hoy = new Date();
+  hoy.setHours(0, 0, 0, 0); // Limpiar hora de hoy
+
   const proximasActividades = [...actividadesFiltradas]
+    .filter((a) => {
+      const fechaActividad = new Date(a.fecha_programada);
+      fechaActividad.setHours(0, 0, 0, 0); // Limpiar hora también
+      return (
+        a.prioridad === "Alta" &&
+        !isNaN(fechaActividad.getTime()) &&
+        fechaActividad >= hoy
+      );
+    })
     .sort((a, b) => new Date(a.fecha_programada) - new Date(b.fecha_programada))
     .slice(0, 3);
 
-  // Functions to determine CSS styles based on activity attributes
   const getPrioridadStyle = (prioridad) => {
     const styles = {
       Alta: "bg-red-500 text-white px-2 py-1 rounded-full text-xs",
@@ -111,21 +114,29 @@ export default function Actividades() {
     );
   };
 
-  // Render the component
   return (
-    <div className="p-6 space-y-6">
-                  <h2 className="text-3xl font-bold text-center text-gray-800">
+    <div className="p-6 space-y-6" id="actividades-container">
+      <TourIntroActividades />
+      <h2
+        className="text-3xl font-bold text-center text-gray-800"
+        id="titulo-gestion"
+      >
         Gestión de Actividades
       </h2>
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* Activities Table */}
-        <div className="lg:col-span-3 bg-white rounded-lg shadow-md p-4">
+        <div
+          className="lg:col-span-3 bg-white rounded-lg shadow-md p-4"
+          id="tabla-actividades"
+        >
           <div className="flex justify-between items-center mb-4">
-            <h2 className="text-2xl font-bold">Actividades</h2>
+            <h2 className="text-2xl font-bold" id="titulo-actividades">
+              Actividades
+            </h2>
             <div className="flex gap-2">
               <button
                 className="bg-black text-white hover:bg-gray-400 hover:text-white px-4 py-2 rounded"
                 onClick={() => setShowModal(true)}
+                id="boton-nueva-actividad"
               >
                 ➕ Nueva Actividad
               </button>
@@ -136,6 +147,7 @@ export default function Actividades() {
               value={filtroEmpresa}
               onChange={(e) => setFiltroEmpresa(e.target.value)}
               className="border px-3 py-2 rounded w-full"
+              id="filtro-empresa"
             >
               <option value="">Filtrar por Empresa</option>
               {empresas.map((empresa) => (
@@ -148,6 +160,7 @@ export default function Actividades() {
               value={filtroUsuario}
               onChange={(e) => setFiltroUsuario(e.target.value)}
               className="border px-3 py-2 rounded w-full"
+              id="filtro-usuario"
             >
               <option value="">Filtrar por Usuario</option>
               {usuarios.map((usuario) => (
@@ -157,12 +170,18 @@ export default function Actividades() {
               ))}
             </select>
           </div>
-          <h3 className="text-lg font-semibold mb-4">Actividades del Taller</h3>
+          <h3
+            className="text-lg font-semibold mb-4"
+            id="titulo-actividades-taller"
+          >
+            Actividades del Taller
+          </h3>
           <div
             className="overflow-x-auto"
             style={{ maxHeight: "290px", overflowY: "auto" }}
+            id="contenedor-tabla"
           >
-            <table className="w-full text-sm">
+            <table className="w-full text-sm" id="tabla">
               <thead className="bg-gray-50 text-gray-700 font-semibold border-b">
                 <tr>
                   <th className="px-4 py-2 text-left">Fecha</th>
@@ -213,6 +232,7 @@ export default function Actividades() {
                           setShowModalVer(true);
                         }}
                         className="border px-2 py-0.5 rounded text-xs hover:bg-gray-900 hover:text-white"
+                        id={`boton-ver-${actividad.id_actividad}`}
                       >
                         Ver
                       </button>
@@ -221,6 +241,7 @@ export default function Actividades() {
                           completarActividad(actividad.id_actividad)
                         }
                         className="border px-2 py-0.5 rounded text-xs text-green-600 hover:bg-green-100"
+                        id={`boton-completar-${actividad.id_actividad}`}
                       >
                         Completar
                       </button>
@@ -232,6 +253,7 @@ export default function Actividades() {
                               setShowModalEditar(true);
                             }}
                             className="border px-2 py-0.5 rounded text-xs"
+                            id={`boton-editar-${actividad.id_actividad}`}
                           >
                             Editar
                           </button>
@@ -245,8 +267,10 @@ export default function Actividades() {
           </div>
         </div>
 
-        {/* Summary and Upcoming Activities */}
-        <div className="lg:col-span-1 bg-white rounded-lg shadow-md p-6">
+        <div
+          className="lg:col-span-1 bg-white rounded-lg shadow-md p-6"
+          id="resumen-actividades"
+        >
           <h3 className="text-xl font-semibold mb-6">Resumen de Actividades</h3>
           <ul className="text-base space-y-2">
             <li>
@@ -276,13 +300,17 @@ export default function Actividades() {
           </ul>
         </div>
 
-        <div className="lg:col-span-2 bg-white rounded-lg shadow-md p-4">
+        <div
+          className="lg:col-span-2 bg-white rounded-lg shadow-md p-4"
+          id="proximas-actividades"
+        >
           <h3 className="text-lg font-semibold mb-4">Próximas Actividades</h3>
           <div className="space-y-3">
             {proximasActividades.map((actividad) => (
               <div
                 key={actividad.id_actividad}
                 className="border rounded p-3 flex justify-between items-center"
+                id={`proxima-actividad-${actividad.id_actividad}`}
               >
                 <div>
                   <p className="font-medium">{actividad.titulo}</p>
@@ -307,9 +335,11 @@ export default function Actividades() {
           onSave={cargarDatos}
         />
       )}
-      {/* Modal for Viewing Activity Details */}
       {showModalVer && actividadSeleccionada && (
-        <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50 overflow-auto">
+        <div
+          className="fixed inset-0 bg-black/40 flex items-center justify-center z-50 overflow-auto"
+          id="modal-ver"
+        >
           <div className="bg-white rounded-lg p-6 w-full max-w-2xl relative">
             <h2 className="text-xl font-bold mb-6">Detalle de Actividad</h2>
             <div className="grid grid-cols-2 gap-4 text-sm">
@@ -360,6 +390,7 @@ export default function Actividades() {
               <button
                 onClick={() => setShowModalVer(false)}
                 className="px-4 py-2 rounded bg-gray-200 hover:bg-gray-300"
+                id="boton-cerrar-ver"
               >
                 Cerrar
               </button>
@@ -368,9 +399,11 @@ export default function Actividades() {
         </div>
       )}
 
-      {/* Modal for Editing Activity */}
       {showModalEditar && actividadSeleccionada && (
-        <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50 overflow-auto">
+        <div
+          className="fixed inset-0 bg-black/40 flex items-center justify-center z-50 overflow-auto"
+          id="modal-editar"
+        >
           <div className="bg-white rounded-lg p-6 w-full max-w-2xl relative">
             <h2 className="text-xl font-bold mb-6">Editar Actividad</h2>
             <form
@@ -401,6 +434,7 @@ export default function Actividades() {
                       titulo: e.target.value,
                     }))
                   }
+                  id="input-titulo"
                 />
               </div>
 
@@ -416,6 +450,7 @@ export default function Actividades() {
                       descripcion: e.target.value,
                     }))
                   }
+                  id="input-descripcion"
                 />
               </div>
 
@@ -430,6 +465,7 @@ export default function Actividades() {
                       prioridad: e.target.value,
                     }))
                   }
+                  id="select-prioridad"
                 >
                   <option value="Alta">Alta</option>
                   <option value="Media">Media</option>
@@ -448,6 +484,7 @@ export default function Actividades() {
                       estado: e.target.value,
                     }))
                   }
+                  id="select-estado"
                 >
                   <option value="Pendiente">Pendiente</option>
                   <option value="En progreso">En progreso</option>
@@ -472,6 +509,7 @@ export default function Actividades() {
                           : null,
                     }))
                   }
+                  id="select-tipo-actividad"
                 >
                   <option value="Visita a Planta">Visita a Planta</option>
                   <option value="Mantenimiento Preventivo">
@@ -503,6 +541,7 @@ export default function Actividades() {
                         hora_visita: e.target.value,
                       }))
                     }
+                    id="input-hora-visita"
                   />
                 </div>
               )}
@@ -512,12 +551,14 @@ export default function Actividades() {
                   type="button"
                   onClick={() => setShowModalEditar(false)}
                   className="px-4 py-2 rounded bg-gray-200 hover:bg-gray-300"
+                  id="boton-cancelar-editar"
                 >
                   Cancelar
                 </button>
                 <button
                   type="submit"
                   className="px-4 py-2 rounded bg-green-600 text-white hover:bg-green-700"
+                  id="boton-guardar-cambios"
                 >
                   Guardar Cambios
                 </button>

@@ -239,7 +239,7 @@ export default function ModalNuevaActividad({ onClose, onSave }) {
           </button>
           <button
             onClick={handleGuardar}
-            className="px-4 py-2 rounded bg-green-600 text-white hover:bg-green-700"
+            className="px-4 py-2 rounded bg-gray-600 text-white hover:bg-gray-700"
           >
             Guardar
           </button>

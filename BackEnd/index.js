@@ -8,6 +8,7 @@ const db = require("./config/db"); // Conexión a la base de datos
 
 // Creación de la aplicación Express
 const app = express();
+module.exports = app;
 
 const { swaggerUi, specs } = require("./swagger");
 
@@ -42,11 +43,3 @@ const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log(`🚀 Servidor corriendo en http://localhost:${PORT}`);
 });
-
-
-
-
-
-
-
-
