@@ -1,12 +1,14 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
+import TourIntroDocumentos from "../TourIntroDocumentos";
 
-export default function Documentos() {
+
+
+export default function Documentos({setShowModal, showModal }) {
   const [documentos, setDocumentos] = useState([]);
   const [empresas, setEmpresas] = useState([]);
   const [vista, setVista] = useState("tabla");
   const [carpetaAbierta, setCarpetaAbierta] = useState(null);
-  const [showModal, setShowModal] = useState(false);
   const [filtroEmpresa, setFiltroEmpresa] = useState("");
   const [filtroCategoria, setFiltroCategoria] = useState("");
   const [categoriaSeleccionada, setCategoriaSeleccionada] = useState(null);
@@ -90,11 +92,12 @@ export default function Documentos() {
 
   return (
     <div className="p-6 space-y-6">
+      <TourIntroDocumentos />
       <h2 className="text-3xl font-bold text-center text-gray-800">
         Gestión de Documentos
       </h2>
 
-      <div className="flex justify-between items-center bg-white p-4 rounded shadow-md">
+      <div id="vista-botones" className="flex justify-between items-center bg-white p-4 rounded shadow-md">
         <div className="space-x-2">
           <button
             onClick={() => setVista("tabla")}
@@ -116,6 +119,7 @@ export default function Documentos() {
           </button>
         </div>
         <button
+          id="btn-subir-documento"
           onClick={() => setShowModal(true)}
           className="bg-black text-white px-5 py-2 rounded shadow-md hover:bg-gray-800"
         >
@@ -127,6 +131,7 @@ export default function Documentos() {
         <>
           <div className="flex flex-wrap gap-4 mb-4">
             <select
+              id="filtro-empresa"
               onChange={(e) => setFiltroEmpresa(e.target.value)}
               className="border rounded px-3 py-2"
             >
@@ -138,18 +143,19 @@ export default function Documentos() {
               ))}
             </select>
             <select
+              id="filtro-categoria"
               onChange={(e) => setFiltroCategoria(e.target.value)}
               className="border rounded px-3 py-2"
             >
               <option value="">Filtrar por categoría</option>
-              {["Contrato", "Planos", "Otros"].map((c) => (
+              {["Contrato", "Planos", "Otros", "Cotizacion"].map((c) => (
                 <option key={c} value={c}>
                   {c}
                 </option>
               ))}
             </select>
           </div>
-          <div className="bg-white shadow-lg rounded p-6 overflow-auto">
+          <div id="tabla-documentos" className="bg-white shadow-lg rounded p-6 overflow-auto">
             <table className="w-full text-sm">
               <thead>
                 <tr className="bg-gray-100 border-b text-left">
@@ -346,6 +352,7 @@ export default function Documentos() {
                   <option value="Contrato">Contrato</option>
                   <option value="Planos">Planos</option>
                   <option value="Otros">Otros</option>
+                  <option value="Cotizacion">Cotizacion</option>
                 </select>
               </div>
               <div>

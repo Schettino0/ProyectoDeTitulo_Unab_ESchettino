@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import ModalEditarCotizacion from "../EditarCotizacion";
 import useAuth from "../../hooks/useAuth";
+import TourIntroCotizaciones from "../TourIntroCotizaciones";
 
 export default function Cotizaciones({ setSeccionActiva }) {
   const { isAuthenticated, user, isAdmin } = useAuth();
@@ -112,17 +113,25 @@ export default function Cotizaciones({ setSeccionActiva }) {
     }).format(monto);
 
   return (
-    <div className="p-6 space-y-6">
-            <h2 className="text-3xl font-bold text-center text-gray-800">
+    <div className="p-6 space-y-6" id="cotizaciones-container">
+      <TourIntroCotizaciones />
+      <h2
+        className="text-3xl font-bold text-center text-gray-800"
+        id="titulo-gestion-cotizaciones"
+      >
         Gestión de Cotizaciones
       </h2>
       {/* Filtro por empresa */}
-      <div className="mb-4 bg-white rounded-lg shadow-md p-4">
+      <div
+        className="mb-4 bg-white rounded-lg shadow-md p-4"
+        id="filtro-empresa"
+      >
         <label className="block mb-1 font-semibold">Filtrar por Empresa</label>
         <select
           value={empresaSeleccionada}
           onChange={(e) => setEmpresaSeleccionada(e.target.value)}
           className="border px-3 py-2 rounded w-full max-w-xs"
+          id="select-empresa"
         >
           <option value="">Todas las empresas</option>
           {empresas.map((e) => (
@@ -133,10 +142,19 @@ export default function Cotizaciones({ setSeccionActiva }) {
         </select>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <div
+        className="grid grid-cols-1 lg:grid-cols-3 gap-6"
+        id="grid-cotizaciones"
+      >
         {/* Tabla */}
-        <div className="lg:col-span-3 bg-white rounded-lg shadow-md p-4">
-          <div className="flex justify-between items-center mb-4">
+        <div
+          className="lg:col-span-3 bg-white rounded-lg shadow-md p-4"
+          id="tabla-cotizaciones"
+        >
+          <div
+            className="flex justify-between items-center mb-4"
+            id="header-tabla-cotizaciones"
+          >
             <h3 className="text-lg font-semibold">Cotizaciones</h3>
             <button
               onClick={() => setSeccionActiva("nuevaCotizacion")}
@@ -146,11 +164,15 @@ export default function Cotizaciones({ setSeccionActiva }) {
                   : "bg-gray-400 text-gray-700 cursor-not-allowed"
               }`}
               disabled={!isAdmin}
+              id="boton-nueva-cotizacion"
             >
               📄 Nueva Cotización
             </button>
           </div>
-          <div className="max-h-[280px] overflow-y-auto">
+          <div
+            className="max-h-[280px] overflow-y-auto"
+            id="tabla-cotizaciones-scroll"
+          >
             <table className="w-full text-sm">
               <thead className="sticky top-0 bg-white z-10 shadow-sm">
                 <tr className="border-b text-left">
@@ -182,6 +204,7 @@ export default function Cotizaciones({ setSeccionActiva }) {
                       <button
                         onClick={() => verDetalle(c.id_cotizacion)}
                         className="border px-3 py-1 rounded text-sm hover:bg-gray-900 hover:text-white"
+                        id={`btn-ver-${c.id_cotizacion}`}
                       >
                         Ver
                       </button>
@@ -190,18 +213,26 @@ export default function Cotizaciones({ setSeccionActiva }) {
                           <button
                             onClick={() => abrirEdicion(c.id_cotizacion)}
                             className="border px-3 py-1 rounded text-sm hover:bg-gray-900 hover:text-white"
+                            id={`btn-editar-${c.id_cotizacion}`}
                           >
                             Editar
                           </button>
                           <button
                             onClick={() => eliminarCotizacion(c.id_cotizacion)}
                             className="border px-3 py-1 rounded text-sm text-red-600 hover:bg-red-600 hover:text-white"
+                            id={`btn-eliminar-${c.id_cotizacion}`}
                           >
                             Eliminar
                           </button>
                         </>
                       )}
-                      <a href={`http://localhost:5000/api/cotizaciones/${c.id_cotizacion}/pdf`} target="_blank" rel="noopener noreferrer" className="border px-3 py-1 rounded text-sm hover:bg-gray-900 hover:text-white">
+                      <a
+                        href={`http://localhost:5000/api/cotizaciones/${c.id_cotizacion}/pdf`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="border px-3 py-1 rounded text-sm hover:bg-gray-900 hover:text-white"
+                        id={`link-pdf-${c.id_cotizacion}`}
+                      >
                         PDF
                       </a>
                     </td>
@@ -213,18 +244,25 @@ export default function Cotizaciones({ setSeccionActiva }) {
         </div>
 
         {/* Resumen */}
-        <div className="lg:col-span-1 bg-white rounded-lg shadow-md p-6">
+        <div
+          className="lg:col-span-1 bg-white rounded-lg shadow-md p-6"
+          id="resumen-cotizaciones"
+        >
           <h3 className="text-xl font-semibold mb-4">
             Resumen de Cotizaciones
           </h3>
           <ul className="text-base space-y-2">
             <li>
               Total Cotizaciones{" "}
-              <span className="float-right font-bold text-lg">{resumen.total}</span>
+              <span className="float-right font-bold text-lg">
+                {resumen.total}
+              </span>
             </li>
             <li>
               Aprobadas{" "}
-              <span className="float-right font-bold text-lg">{resumen.aprobadas}</span>
+              <span className="float-right font-bold text-lg">
+                {resumen.aprobadas}
+              </span>
             </li>
             <li>
               Pendientes{" "}
@@ -248,13 +286,17 @@ export default function Cotizaciones({ setSeccionActiva }) {
         </div>
 
         {/* Recientes */}
-        <div className="lg:col-span-2 bg-white rounded-lg shadow-md p-4">
+        <div
+          className="lg:col-span-2 bg-white rounded-lg shadow-md p-4"
+          id="cotizaciones-recientes"
+        >
           <h3 className="text-lg font-semibold mb-4">Cotizaciones Recientes</h3>
           <div className="space-y-2">
             {cotizacionesFiltradas.slice(0, 3).map((c) => (
               <div
                 key={c.id_cotizacion}
                 className="border rounded p-3 flex justify-between items-center"
+                id={`reciente-${c.id_cotizacion}`}
               >
                 <div>
                   <p className="text-sm font-medium">{c.nombre_empresa}</p>
@@ -273,6 +315,7 @@ export default function Cotizaciones({ setSeccionActiva }) {
                   <button
                     onClick={() => verDetalle(c.id_cotizacion)}
                     className="text-sm text-blue-600 hover:underline"
+                    id={`btn-ver-detalle-${c.id_cotizacion}`}
                   >
                     Ver Detalles
                   </button>
@@ -281,6 +324,7 @@ export default function Cotizaciones({ setSeccionActiva }) {
                     target="_blank"
                     rel="noopener noreferrer"
                     className="text-sm text-gray-600 hover:underline"
+                    id={`link-generar-pdf-${c.id_cotizacion}`}
                   >
                     Generar PDF
                   </a>
@@ -304,7 +348,10 @@ export default function Cotizaciones({ setSeccionActiva }) {
 
       {/* Modal de detalle */}
       {showModal && detalle && (
-        <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
+        <div
+          className="fixed inset-0 bg-black/40 flex items-center justify-center z-50"
+          id="modal-detalle"
+        >
           <div className="bg-white rounded-lg p-6 w-full max-w-5xl relative">
             <h2 className="text-xl font-bold mb-4">Detalle de Cotización</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -396,6 +443,7 @@ export default function Cotizaciones({ setSeccionActiva }) {
             <button
               onClick={() => setShowModal(false)}
               className="absolute top-2 right-2 text-gray-500 hover:text-black"
+              id="btn-cerrar-modal"
             >
               ✖
             </button>

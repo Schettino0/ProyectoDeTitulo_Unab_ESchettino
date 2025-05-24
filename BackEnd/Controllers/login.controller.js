@@ -32,7 +32,7 @@ const loginUsuario = (req, res) => {
       { expiresIn: '1h' }
     );
 
-    res.json({
+    res.status(200).json({
       message: 'Login exitoso',
       token,
       usuario: {
