@@ -3,7 +3,7 @@
 **Profesor Guía:** Barbarita Lara  
 **Carrera:** Ingeniería en Computación e Informática  
 **Fecha de inicio:** Marzo 2025  
-**Versión:** 1.4.0
+**Versión:** 1.4.2
 
 ---
 
@@ -43,6 +43,8 @@ Desarrollar una plataforma web centralizada que permita la gestión eficiente de
 - 📂 Módulo de documentos (subir, listar, filtrar, eliminar).
 - 🔐 Control de acceso mediante JWT.
 - 🧠 Navegación intuitiva tipo dashboard.
+- 🧪 Pruebas unitarias y de integración de los principales módulos.
+- 🎓 Tour guiado en la sección de cotizaciones.
 
 ---
 
@@ -54,6 +56,8 @@ Desarrollar una plataforma web centralizada que permita la gestión eficiente de
 - **Autenticación:** JSON Web Token (JWT)
 - **Subida de archivos:** Multer
 - **PDF dinámico:** html-pdf / dom-to-pdf
+- **Testing:** Jest + Supertest
+- **Tours:** Intro.js
 - **Control de versiones:** Git + GitHub
 
 ---
@@ -89,7 +93,7 @@ npm run dev
 
 ---
 
-## 📁 Estructura del Proyecto (v1.4.0 resumida)
+## 📁 Estructura del Proyecto (v1.4.2 resumida)
 
 ```
 backend/
@@ -103,6 +107,10 @@ backend/
 ├── middleware/
 │   └── multer.js
 ├── config/
+├── tests/
+│   ├── cotizaciones.test.js
+│   ├── documentos.test.js
+│   └── login.test.js
 └── index.js
 
 frontend/
@@ -111,22 +119,21 @@ frontend/
 │   │   ├── Documentos.jsx
 │   │   ├── Cotizaciones.jsx
 │   │   ├── Actividades.jsx
+│   ├── components/
+│   │   └── TourIntroCotizaciones.jsx
 │   └── pages/
 │       └── Dashboard.jsx
 ```
 
 ---
 
-## 📦 Cambios Recientes — Release v1.4.0
+## 📦 Cambios Recientes — Release v1.4.2
 
-### ✅ Finalización de Sprint 5 – Módulo de Documentos
+### ✅ Pruebas y Tour
 
-- Modal para subir documentos con nombre, categoría, empresa y archivo.
-- Guardado físico en carpetas por empresa y categoría.
-- Base de datos con estructura para documentos y fecha de subida.
-- Vista de tabla con filtros por empresa y categoría.
-- Botón para ver, descargar y eliminar.
-- Vista tipo carpeta con navegación multinivel: Categoría → Empresa → Archivos.
+- Añadidas pruebas unitarias e integración para cotizaciones, documentos, login, empresas y usuarios.
+- Tour guiado para la sección de cotizaciones usando Intro.js.
+- Todos los tests cubren rutas clave de `POST`, `GET`, `PUT`, `DELETE`.
 
 ---
 
